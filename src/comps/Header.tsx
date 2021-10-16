@@ -13,7 +13,6 @@ export const Header: React.FC<HeaderProps> = ({title}) => {
 
 const styles = StyleSheet.create({
   header: {
-    textAlign: "center",
-    fontSize: 50
+    fontSize: 50,
   }
 });
