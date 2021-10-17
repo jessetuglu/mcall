@@ -48,7 +48,6 @@ app.post('/make_call', (req, res) => {
   // setTimeout(()=>{
   // fetchRecording('CAb05a7aa53396d996662c078a704f8df1',res)}, 1000);
 
-<<<<<<< HEAD
     client.calls.create({
         record: true,
         twiml: phone_call,
@@ -58,18 +57,6 @@ app.post('/make_call', (req, res) => {
         setTimeout(()=>{
           fetchRecording(call.sid,res)}, 45000);
     })
-=======
-  client.calls.create({
-    record: true,
-    twiml: phone_call,
-    to: req.body.number,
-    from: '+13187053381'
-  }).then(call => {
-    setTimeout(() => {
-      fetchRecording(call.sid, res)
-    }, 60000);
-  })
->>>>>>> 6415cf3d4c072b5541813ef76a6d5184f6262afd
     .catch(err => console.log(err));
 })
 // app.listen(process.env.PORT, () => console.log(`Running on Port ${process.env.PORT}`))
