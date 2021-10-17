@@ -1,17 +1,59 @@
-import React from 'react';
+import {React, Component} from 'react';
 import Proptypes from 'prop-types';
 import {UserService} from "../utils/UserService";
+import axios from 'axios';
 
-export const Home = ({setIsAuth}) => {
-  const user = UserService.getUser();
-  const testingLogout = () => {
+const ASSEMBLYAI_TOKEN = 'eb277c7378e8460dbcdb70e68bb7b989';
+const SERVER_URL = `http://localhost:4000/`
+
+class Home extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      data: null,
+      user: UserService.getUser(),
+
+    };
+    this.call = this.call.bind(this);
+    this.getTranscript = this.getTranscript.bind(this);
+  }
+  testingLogout = () => {
     UserService.logoutUser();
-    setIsAuth(false);
+    this.props.setIsAuth(false);
   };
 
-  return (
-    <div className = "login">
-      <h1>  <div className = "welcomeMessage">Welcome, {user.name}</div> </h1>
+
+  async getTranscript(transcribe_id){
+    const result = await axios.get(`https://api.assemblyai.com/v2/transcript/${transcribe_id}`,
+      {headers: {'authorization': ASSEMBLYAI_TOKEN}});
+
+    if (result.data.status !== 'completed'){
+      setTimeout(()=>{this.getTranscript(transcribe_id)}, 10000);
+    }else{
+      this.setState({data: result.data.text});
+    }
+  }
+
+  async call (){
+    const uri = `${SERVER_URL}make_call`;
+    console.log(uri);
+    console.log(this.state.user);
+    const ref = this;
+    axios.post(uri,{'name' : this.state.user.name, 'number' : this.state.user.number}).then(async res => {
+      const stt_uri = 'https://api.assemblyai.com/v2/transcript';
+
+      let resp = await axios.post(stt_uri, {'audio_url': res.data},
+      {headers: {'authorization': ASSEMBLYAI_TOKEN,"content-type": "application/json" }});
+      console.log(resp);
+      let transcribeID = resp.data.id;
+      ref.getTranscript(transcribeID);
+    });
+  }
+
+  render() {
+    return (
+<div className = "login">
+      <h1>  <div className = "welcomeMessage">Welcome, {this.state.user.name}</div> </h1>
 
 
      <h2> You deserve happiness, we are here to help :)</h2>
@@ -55,14 +97,15 @@ Mental health conditions such as stress, depression, and anxiety may develop due
 
      <p className = "line"> Suicide prevention hotline: <a href="https://suicidepreventionlifeline.org/">800-273-8255</a></p>
      <p className = "line"><a href="https://www.helpguide.org/articles/suicide-prevention/are-you-feeling-suicidal.htm">Suicide prevention guide</a></p>
-
-      <button onClick={testingLogout} className = "button">Logout</button>
+      <button onClick={this.call}>Call</button>
+      <p>{this.state.data}</p>
+      <button onClick={this.testingLogout} className = "button">Logout</button>
     </div>
-  );
+      )
+  }
 };
 
 Home.propTypes = {
   setIsAuth: Proptypes.func
 }
-
-
+export default Home;

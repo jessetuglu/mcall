@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Login} from './comps/Login';
-import {Home} from "./comps/Home";
+import Home from "./comps/Home";
 import './App.css';
 import {UserService} from "./utils/UserService";
 
