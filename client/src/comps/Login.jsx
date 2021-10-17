@@ -48,10 +48,10 @@ export class Login extends React.Component {
       <div>
         {this.state.hasSubmitted ?
           <div className="login">
-            <label>Please enter the code that was sent your phone</label>
+            <label className={""}>Please enter the code that was sent your phone</label>
             <input type={"text"} onChange={this.handleChange} name={"tempCode"} value={this.state.tempCode}
                    className="form"/>
-            <button onClick={this.handleCodeCheck} className="button">Verify Code</button>
+            <button onClick={this.handleCodeCheck} className="btn btn-success font-weight-bold mt-3">Verify Code</button>
           </div>
           :
           <div className="login">
@@ -60,7 +60,7 @@ export class Login extends React.Component {
             <label>Please enter your phone number: </label>
             <input className="form" type={"text"} onChange={this.handleChange} name={"tempNumber"}
                    value={this.state.tempNumber}/>
-            <button onClick={this.handleVerification} className="button">Verify me</button>
+            <button onClick={this.handleVerification} className="btn btn-warning font-weight-bold mt-3">Verify me</button>
           </div>
         }
       </div>

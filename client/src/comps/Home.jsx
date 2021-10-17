@@ -12,7 +12,7 @@ class Home extends Component {
     this.state = {
       data: null,
       user: UserService.getUser(),
-
+      requestedCall: false
     };
     this.call = this.call.bind(this);
     this.getTranscript = this.getTranscript.bind(this);
@@ -42,6 +42,7 @@ class Home extends Component {
     const uri = `${SERVER_URL}make_call`;
     console.log(uri);
     console.log(this.state.user);
+    this.setState({requestedCall: true});
     const ref = this;
     axios.post(uri, {'name': this.state.user.name, 'number': this.state.user.number}).then(async res => {
       const stt_uri = 'https://api.assemblyai.com/v2/transcript';
@@ -57,13 +58,8 @@ class Home extends Component {
   render() {
     return (
       <div className="login">
-        <h1>
-          <div className="welcomeMessage">Welcome, {this.state.user.name}</div>
-        </h1>
-
-
-        <h2> You deserve happiness, we are here to help :)</h2>
-
+        <h1 className="d-flex justify-content-center h1"><b>Welcome, {this.state.user.name}</b></h1>
+        <h3 className="d-flex justify-content-center"> You deserve happiness, we are here to help :)</h3>
         <div className="article">
           <div className="col1">
             Everyone has some risk of developing a mental health disorder, no matter their age, sex, income, or
@@ -118,9 +114,10 @@ class Home extends Component {
         <p className="line"><a
           href="https://www.helpguide.org/articles/suicide-prevention/are-you-feeling-suicidal.htm">Suicide prevention
           guide</a></p>
-        <button onClick={this.call}>Call</button>
-        <p>{this.state.data}</p>
-        <button onClick={this.testingLogout} className="button">Logout</button>
+
+        <button className={"btn btn-primary h4"} onClick={this.call}>Call</button>
+        <p className={"h4"}>{this.state.requestedCall ? (this.state.data == null ? "Loading" : this.state.data): null}</p>
+        <button onClick={this.testingLogout} className="button btn btn-danger h3">Logout</button>
       </div>
     )
   }

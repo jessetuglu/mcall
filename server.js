@@ -6,7 +6,6 @@ require('dotenv').config();
 
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 
-
 const app = express(); //Line 2
 
 app.use(cors());
