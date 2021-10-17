@@ -12,7 +12,9 @@ const App = () =>{
 
   return (
     <div>
-      <h1>Therapist App</h1>
+      <div className="header">
+        <h1 className = "headings">Therapist App</h1>
+      </div>
       {isAuth ? <Home setIsAuth={setIsAuth}/> : <Login setAuth={setIsAuth}/>  }
     </div>
   )
