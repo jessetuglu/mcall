@@ -3,7 +3,7 @@ import {Login} from './comps/Login';
 import Home from "./comps/Home";
 import './App.css';
 import {UserService} from "./utils/UserService";
-import Logo from './assets/2.png';
+import Logo from './assets/M.png';
 
 const App = () => {
   const [isAuth, setIsAuth] = useState(UserService.checkAuth());
