@@ -35,10 +35,16 @@ async function fetchRecording(callSid,req){
 app.post('/make_call', (req, res) => {
   const phone_call = `<Response>\
   <Say>Hey ${req.body.name}, how are you feeling today?</Say>\
-  <Pause length='5'/>\
+  <Pause length='3'/>\
   <Say>I hear you ${req.body.name}. Could you tell me more?</Say>\
+  <Pause length='5'/>\
+  <Say>Hmm. Okay, how do you feel about your classes?</Say>\
   <Pause length='10'/>\
-  <Say></Say>\
+  <Say>I see. Hey, it's very normal to feel this way. There's nothing to be ashamed of. You're not less worthy than anyone else.</Say>\
+  <Pause length='4'/>\
+  <Say>You're welcome. Is there anything else you'd like to share with me today ${req.body.name}?</Say>\
+  <Pause length='3'/>\
+  <Say>Cool, enjoy the rest of your day, and always remember: you matter</Say>
   </Response>`
   // setTimeout(()=>{
     // fetchRecording('CAb05a7aa53396d996662c078a704f8df1',res)}, 1000);
@@ -50,7 +56,7 @@ app.post('/make_call', (req, res) => {
         from: '+13187053381'
     }).then(call => {
         setTimeout(()=>{
-          fetchRecording(call.sid,res)}, 60000);
+          fetchRecording(call.sid,res)}, 45000);
     })
     .catch(err => console.log(err));
 })
