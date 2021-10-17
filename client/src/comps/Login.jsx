@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import "./Login.css";
 
 
 export class Login extends React.Component{
@@ -42,18 +43,21 @@ export class Login extends React.Component{
 
   render(){
     return(
-      <div>
+      <div >
         {this.state.hasSubmitted ?
-          <div>
+          <div className = "login">
             <label>Please enter the code that was sent your phone</label>
-            <input type={"text"} onChange={this.handleChange} name={"tempCode"} value={this.state.tempCode}/>
-            <button onClick={this.handleCodeCheck}>Verify Code</button>
+            <input type={"text"} onChange={this.handleChange} name={"tempCode"} value={this.state.tempCode} className="form"/>
+            <button onClick={this.handleCodeCheck} className="button"ç>Verify Code</button>
           </div>
           :
-          <div>
-            <label>Please enter your phone number</label>
-            <input type={"text"} onChange={this.handleChange} name={"tempNumber"} value={this.state.tempNumber}/>
-            <button onClick={this.handleVerification}>Verify me</button>
+          <div className = "login">
+
+              <label>Please enter your phone number: </label>
+              <input className="form" type={"text"} onChange={this.handleChange} name={"tempNumber"} value={this.state.tempNumber}/>
+              <button onClick={this.handleVerification} className="button" >Verify me</button>
+
+
           </div>
         }
       </div>

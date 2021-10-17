@@ -15,7 +15,10 @@ const App = () =>{
 
   return (
     <div>
-      <h1>Therapist App</h1>
+      <div className="header">
+        <h1 className = "headings">Therapist App</h1>
+      </div>
+
       {number === undefined ? <Login setNumber={setNumber}/> : <Home number={number}/> }
     </div>
   )

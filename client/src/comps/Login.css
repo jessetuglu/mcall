@@ -1,0 +1,85 @@
+:root {
+    --color-light: ghostwhite;
+    --color-dark: #212121;
+    --color-signal: #fab700;
+    
+    --color-background: var(--color-light);
+    --color-text: var(--color-dark);
+    --color-accent: var(--color-signal);
+    
+    --size-bezel: .5rem;
+    --size-radius: 4px;
+    
+    line-height: 1.4;
+    
+    font-family: 'Inter', sans-serif;
+    font-size: calc(.6rem + .4vw);
+    color: var(--color-text);
+    background: var(--color-background);
+    font-weight: 300;
+    padding: 0 calc(var(--size-bezel) * 3);
+  }
+  
+  h1, h2, h3 {
+    font-weight: 900;
+  }
+
+/* .login{
+    width: 50vw;
+    height: 60vh;
+    border-radius: 4px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: gray;
+    /* align-items: center; 
+} */
+
+.login {
+    background: var(--color-background);
+    padding: calc(4 * var(--size-bezel));
+    margin-top: calc(4 * var(--size-bezel));
+    border-radius: var(--size-radius);
+    border: 3px solid var(--color-shadow, currentColor);
+    box-shadow: .5rem .5rem 0 var(--color-shadow, currentColor);
+    
+    &--inverted {
+      --color-background: var(--color-dark);
+      color: var(--color-light);
+      --color-shadow: var(--color-accent);
+    }
+    
+    &--accent {
+      --color-background: var(--color-signal);
+      --color-accent: var(--color-light);
+      color: var(--color-dark);
+    }
+}
+
+
+.form {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid #808080;
+  outline: 0;
+  font-size: 1.3rem;
+  color: #000000;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+}
+
+
+
+/* @media all and (max-width:30em){
+ a.button3{
+  display:block;
+  margin:0.2em auto;
+ }
+} */
