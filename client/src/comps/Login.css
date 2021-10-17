@@ -74,3 +74,31 @@
     color: transparent;
   }
 }
+
+.login{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.article {
+  display: flex;
+  padding-top: 10px;
+}
+
+.col1{
+  padding-bottom: 20px;
+  padding: 5px 5px;
+}
+
+.col2{
+  padding-bottom: 20px;
+  padding: 5px 5px;
+}
+.col3{
+  padding-bottom: 20px;
+  padding: 5px 5px;
+}
+
+.line{
+  padding-top: 20px;
+}
