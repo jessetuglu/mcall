@@ -42,15 +42,9 @@ class Home extends Component {
     const ref = this;
     axios.post(uri,{'name' : this.state.user.name, 'number' : this.state.user.number}).then(async res => {
       const stt_uri = 'https://api.assemblyai.com/v2/transcript';
-<<<<<<< HEAD
       this.setState({download : res.data});
-      let resp = await axios.post(stt_uri, {'audio_url': res.data},
-      {headers: {'authorization': ASSEMBLYAI_TOKEN,"content-type": "application/json" }});
-=======
-
       let resp = await axios.post(stt_uri, {'audio_url': res.data, "speaker_labels": true},
-        {headers: {'authorization': ASSEMBLYAI_TOKEN, "content-type": "application/json"}});
->>>>>>> master
+      {headers: {'authorization': ASSEMBLYAI_TOKEN,"content-type": "application/json" }});
       console.log(resp);
       let transcribeID = resp.data.id;
       ref.getTranscript(transcribeID);
@@ -97,14 +91,8 @@ However, many other factors contribute to the development of these disorders.
 
 Having a gene with links to a mental health disorder, such as depression or schizophrenia, does not guarantee that a condition will develop. Likewise, people without related genes or a family history of mental illness can still have mental health issues.
 
-<<<<<<< HEAD
 Mental health conditions such as stress, depression, and anxiety may develop due to underlying, life-changing physical health problems, such as cancer, diabetes, and chronic pain.
         </div>
-=======
-        <button className={"btn btn-primary h4"} onClick={this.call}>Call</button>
-        <p className={"h4"}>{this.state.requestedCall ? (this.state.data == null ? "Loading" : `Chat Transcript: \n${this.state.data}`): null}</p>
-        <button onClick={this.testingLogout} className="button btn btn-danger h3">Logout</button>
->>>>>>> master
       </div>
 
 
@@ -112,7 +100,7 @@ Mental health conditions such as stress, depression, and anxiety may develop due
      <p className = "line"><a href="https://www.helpguide.org/articles/suicide-prevention/are-you-feeling-suicidal.htm">Suicide prevention guide</a></p>
       <button onClick={this.call}>Call</button>
       {this.state.download ? <a href={this.state.download}>{Date().toLocaleLowerCase()}</a> : null}
-      <p>{this.state.data}</p>
+      <p className={"h4"}>{this.state.requestedCall ? (this.state.data == null ? "Loading" : `Chat Transcript: \n${this.state.data}`): null}</p>
       <button onClick={this.testingLogout} className = "button">Logout</button>
     </div>
       )
