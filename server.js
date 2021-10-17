@@ -4,9 +4,9 @@ const twilio = require('twilio');
 const jwt = require('jsonwebtoken');
 
 const ASSEMBLYAI_TOKEN='eb277c7378e8460dbcdb70e68bb7b989';
-const TWILIO_ACCOUNT_SID='ACaf86dd1358a36f7504a95cf86b1e0c4b';
-const TWILIO_AUTH_TOKEN='94720af290f8797ab69a1e0c6ee1bf8b';
-const PHONE_VER_ACCOUNT_ID='VA85390e62457dca2b0682d525230ad219';
+const TWILIO_ACCOUNT_SID='ACe42a47d602608adc21c04767b25fffe4'; //ACaf86dd1358a36f7504a95cf86b1e0c4b
+const TWILIO_AUTH_TOKEN='589840ee10f2a829e578ae2f8d11506f'; //94720af290f8797ab69a1e0c6ee1bf8b
+const PHONE_VER_ACCOUNT_ID='VAf80d6b5eadf50b777e9f9f778167141f'; //VA85390e62457dca2b0682d525230ad219
 
 const TOKEN_PRIVATE_KEY='freeShirt.exe';
 
@@ -30,6 +30,8 @@ app.get('/express_backend', (req, res) => { //Line 9
 app.post('/send_code', (req, res) => {
   const number = req.body.number;
 
+  console.log("number: ", number);
+
   client.verify.services(PHONE_VER_ACCOUNT_ID)
     .verifications
     .create({to: number, channel: 'sms'})
@@ -45,7 +47,6 @@ app.post('/send_code', (req, res) => {
 
 app.post('/verify_otp', (req, res) => {
   const {number, code} = req.body;
-  console.log(number, code);
   client.verify.services(PHONE_VER_ACCOUNT_ID)
     .verificationChecks
     .create({to: number, code: code})
@@ -71,6 +72,7 @@ app.post('/verify_token', (req, res) => {
     res.status(200);
     res.json({msg: "Valid token."});
   } catch(err) {
+    console.log('error validating token');
     res.status(400);
     res.json({error: "Invalid token."})
   }
