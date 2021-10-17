@@ -4,7 +4,7 @@ export const UserService = {
     return user != null;
   },
   setUser: (user) => {
-    localStorage.setItem("user", user);
+    localStorage.setItem("user", JSON.stringify(user));
   },
   logoutUser: () => {
     localStorage.clear();
