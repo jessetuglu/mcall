@@ -3,18 +3,8 @@ import axios from 'axios';
 export const AuthService = {
   isAuth: () => {
     let token = localStorage.getItem("token");
-    console.log('GETTING THE FUCKINTG TOKEN: ', token);
     if (token != null){
-      axios.post("http://localhost:5000/verify_token", {token: token})
-        .then((resp)=>{
-          if (resp.status === 200){
-            console.log('coreect token');
-            return true;
-          }
-        })
-        .catch((e)=>{
-          return false;
-        });
+      return true;
     }
     return false;
   },
@@ -23,5 +13,8 @@ export const AuthService = {
   },
   clearAuth: () => {
     localStorage.clear();
-  }
+  },
+  getAuth: () => {
+    return localStorage.getItem("token");
+  },
 };
