@@ -1,7 +1,6 @@
 const express = require('express'); //Line 1
 const cors = require('cors');
 const twilio = require('twilio');
-const jwt = require('jsonwebtoken');
 
 const ASSEMBLYAI_TOKEN='eb277c7378e8460dbcdb70e68bb7b989';
 const TWILIO_ACCOUNT_SID='ACe42a47d602608adc21c04767b25fffe4'; //ACaf86dd1358a36f7504a95cf86b1e0c4b
@@ -45,9 +44,8 @@ app.post('/verify_otp', (req, res) => {
     .create({to: number, code: code})
     .then(verification_check => {
       if (verification_check.status === "approved"){
-        let token = jwt.sign({ number: number, code: code }, TOKEN_PRIVATE_KEY, { expiresIn: '5h' });
         res.status(200);
-        res.json({token: token});
+        res.json({status: "Verification successful."});
       }
       res.status(400);
       res.json({error: "Invalid otp code."});
@@ -56,19 +54,6 @@ app.post('/verify_otp', (req, res) => {
       res.status(400);
       res.json({error: "Could not verify otp code."});
     });
-});
-
-app.post('/verify_token', (req, res) => {
-  const token = req.body.token;
-  try {
-    jwt.verify(token, TOKEN_PRIVATE_KEY);
-    res.status(200);
-    res.json({msg: "Valid token."});
-  } catch(err) {
-    console.log('error validating token');
-    res.status(400);
-    res.json({error: "Invalid token."})
-  }
 });
 
 

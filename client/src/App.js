@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {Login} from './comps/Login';
 import {Home} from "./comps/Home";
 import './App.css';
-import {AuthService} from "./utils/useTokenStore";
+import {UserService} from "./utils/UserService";
 
 const App = () =>{
-  const [isAuth, setIsAuth] = useState(AuthService.isAuth());
+  const [isAuth, setIsAuth] = useState(UserService.checkAuth());
   return (
     <div>
       <div className="header">

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import {AuthService} from "../utils/useTokenStore";
+import {UserService} from "../utils/UserService";
 import "./Login.css";
 
 
@@ -14,6 +14,7 @@ export class Login extends React.Component{
     hasSubmitted: false,
     tempNumber: "",
     tempCode: "",
+    name: "",
   };
 
   handleVerification = () => {
@@ -27,8 +28,9 @@ export class Login extends React.Component{
   handleCodeCheck = () => {
     axios.post("http://localhost:5000/verify_otp", {number: this.state.tempNumber, code: this.state.tempCode})
       .then((resp) => {
-        if (resp.data.token){
-          AuthService.setAuth(resp.data.token);
+        if (resp.data.status){
+          const user = { number: this.state.tempNumber, name: this.state.name };
+          UserService.setUser(user);
           this.props.setAuth(true);
         }
         else{
@@ -56,7 +58,8 @@ export class Login extends React.Component{
           </div>
           :
           <div className = "login">
-
+              <label>Please enter your name: </label>
+              <input className="form" type={"text"} onChange={this.handleChange} name={"name"} value={this.state.name}/>
               <label>Please enter your phone number: </label>
               <input className="form" type={"text"} onChange={this.handleChange} name={"tempNumber"} value={this.state.tempNumber}/>
               <button onClick={this.handleVerification} className="button">Verify me</button>
