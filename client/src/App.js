@@ -1,40 +1,24 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import axios from 'axios';
 
-class App extends Component {
-state = {
-    data: null
-  };
+import {Login} from './comps/Login';
+import {Home} from "./comps/Home";
 
-  componentDidMount() {
-    this.callBackendAPI()
-      .then(res => this.setState({ data: res.express }))
-      .catch(err => console.log(err));
-  }
-    // fetching the GET route from the Express server which matches the GET route from server.js
-  callBackendAPI = async () => {
-    const response = await axios.get('http://localhost:5000/express_backend');
-    // const body = await response.json();
-    // console.log(body);
-    if (response.status !== 200) {
-      throw Error(response.data) 
-    }
-    return response.data; 
-  };
+const App = () =>{
 
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">{this.state.data}</p>
-      </div>
-    );
-  }
+  const [number, setNumber] = useState(undefined);
+
+  useEffect(()=>{
+    console.log("number was changed");
+  }, [number]);
+
+  return (
+    <div>
+      <h1>Therapist App</h1>
+      {number === undefined ? <Login setNumber={setNumber}/> : <Home number={number}/> }
+    </div>
+  )
 }
 
 export default App;
