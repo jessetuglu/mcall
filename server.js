@@ -22,11 +22,11 @@ app.post('/verify_phone', (req, res) => {
   console.log(req.body);
 });
 
-async function fetchRecording(callSid,req){
+async function fetchRecording(callSid, req) {
   let res = await client.recordings.list({callSid: callSid, limit: 1});
-  if (res.length <= 0){
+  if (res.length <= 0) {
     setTimeout(fetchRecording, 10000);
-  }else{
+  } else {
     let out = `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Recordings/${res[0].sid}.mp3'`;
     req.send(out);
   }
@@ -41,24 +41,25 @@ app.post('/make_call', (req, res) => {
   <Say></Say>\
   </Response>`
   // setTimeout(()=>{
-    // fetchRecording('CAb05a7aa53396d996662c078a704f8df1',res)}, 1000);
+  // fetchRecording('CAb05a7aa53396d996662c078a704f8df1',res)}, 1000);
 
-    client.calls.create({
-        record: true,
-        twiml: phone_call,
-        to: req.body.number,
-        from: '+13187053381'
-    }).then(call => {
-        setTimeout(()=>{
-          fetchRecording(call.sid,res)}, 60000);
-    })
+  client.calls.create({
+    record: true,
+    twiml: phone_call,
+    to: req.body.number,
+    from: '+13187053381'
+  }).then(call => {
+    setTimeout(() => {
+      fetchRecording(call.sid, res)
+    }, 60000);
+  })
     .catch(err => console.log(err));
 })
 // app.listen(process.env.PORT, () => console.log(`Running on Port ${process.env.PORT}`))
-process.on('uncaughtException', err=>{
+process.on('uncaughtException', err => {
   console.log(err)
 })
-process.on('SIGTERM', err=>{
+process.on('SIGTERM', err => {
   console.log(err)
 })
 app.post('/send_code', (req, res) => {
@@ -71,7 +72,7 @@ app.post('/send_code', (req, res) => {
       res.status(200);
       res.json({msg: "Verification code sent."});
     })
-    .catch((e)=>{
+    .catch((e) => {
       console.log("error: ", e);
       res.status(400);
       res.json({error: "Could not send verification code."});
@@ -84,14 +85,14 @@ app.post('/verify_otp', (req, res) => {
     .verificationChecks
     .create({to: number, code: code})
     .then(verification_check => {
-      if (verification_check.status === "approved"){
+      if (verification_check.status === "approved") {
         res.status(200);
         res.json({status: "Verification successful."});
       }
       res.status(400);
       res.json({error: "Invalid otp code."});
     })
-    .catch((e)=>{
+    .catch((e) => {
       res.status(400);
       res.json({error: "Could not verify otp code."});
     });
