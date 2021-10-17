@@ -43,7 +43,8 @@ app.post('/make_call', (req, res) => {
   <Pause length='4'/>\
   <Say>You're welcome. Is there anything else you'd like to share with me today ${req.body.name}?</Say>\
   <Pause length='3'/>\
-  <Say>Cool, enjoy the rest of your day, and always remember: you matter</Say>
+  <Say>Cool, enjoy the rest of your day, and always remember: you matter</Say>\
+  <Pause length='1'/>
   </Response>`
   // setTimeout(()=>{
   // fetchRecording('CAb05a7aa53396d996662c078a704f8df1',res)}, 1000);
