@@ -28,9 +28,10 @@ class Home extends Component {
       {headers: {'authorization': ASSEMBLYAI_TOKEN}});
 
     if (result.data.status !== 'completed'){
-      setTimeout(()=>{this.getTranscript(transcribe_id)}, 10000);
+      setTimeout(()=>{this.getTranscript(transcribe_id)}, 5000);
     }else{
-      this.setState({data: result.data.text});
+      const standardText = "You have a trial account. You can remove this message at any time by upgrading to a full account. Press any key to execute your code. ";
+      this.setState({data: result.data.text.split(standardText)[1]});
     }
   }
 
