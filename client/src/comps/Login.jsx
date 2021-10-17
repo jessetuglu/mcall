@@ -15,14 +15,15 @@ export class Login extends React.Component{
 
   handleVerification = () => {
     this.setState({ hasSubmitted: true });
-    axios.post("http://localhost:5000/send_code", {number: this.state.tempNumber})
+    axios.post("http://localhost:4000/send_code", {number: this.state.tempNumber})
       .then((resp) => {
         console.log("verification sent.");
-      }).catch(e => console.log(e));
+      })
+      .catch(e => console.log(e));
   };
 
   handleCodeCheck = () => {
-    axios.post("http://localhost:5000/verify_otp", {number: this.state.tempNumber, code: this.state.tempCode})
+    axios.post("http://localhost:4000/verify_otp", {number: this.state.tempNumber, code: this.state.tempCode})
       .then((resp) => {
         if (resp.data.status){
           const user = { number: this.state.tempNumber, name: this.state.name };

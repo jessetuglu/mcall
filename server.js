@@ -46,7 +46,7 @@ app.post('/make_call', (req, res) => {
     client.calls.create({
         record: true,
         twiml: phone_call,
-        to: req.body.number,  
+        to: req.body.number,
         from: '+13187053381'
     }).then(call => {
         setTimeout(()=>{
@@ -72,6 +72,7 @@ app.post('/send_code', (req, res) => {
       res.json({msg: "Verification code sent."});
     })
     .catch((e)=>{
+      console.log("error: ", e);
       res.status(400);
       res.json({error: "Could not send verification code."});
     });

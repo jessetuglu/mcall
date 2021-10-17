@@ -25,7 +25,7 @@ class Home extends Component {
   async getTranscript(transcribe_id){
     const result = await axios.get(`https://api.assemblyai.com/v2/transcript/${transcribe_id}`,
       {headers: {'authorization': ASSEMBLYAI_TOKEN}});
-    
+
     if (result.data.status !== 'completed'){
       setTimeout(()=>{this.getTranscript(transcribe_id)}, 10000);
     }else{
@@ -36,12 +36,12 @@ class Home extends Component {
   async call (){
     const uri = `${SERVER_URL}make_call`;
     console.log(uri);
-    console.log(this);
+    console.log(this.state.user);
     const ref = this;
-    axios.post(uri,{'name' : this.user.naem, 'number' : this.user.number}).then(async res => {
+    axios.post(uri,{'name' : this.state.user.name, 'number' : this.state.user.number}).then(async res => {
       const stt_uri = 'https://api.assemblyai.com/v2/transcript';
-      
-      let resp = await axios.post(stt_uri, {'audio_url': res.data}, 
+
+      let resp = await axios.post(stt_uri, {'audio_url': res.data},
       {headers: {'authorization': ASSEMBLYAI_TOKEN,"content-type": "application/json" }});
       console.log(resp);
       let transcribeID = resp.data.id;
