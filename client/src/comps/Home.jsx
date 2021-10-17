@@ -47,7 +47,7 @@ class Home extends Component {
     axios.post(uri, {'name': this.state.user.name, 'number': this.state.user.number}).then(async res => {
       const stt_uri = 'https://api.assemblyai.com/v2/transcript';
 
-      let resp = await axios.post(stt_uri, {'audio_url': res.data},
+      let resp = await axios.post(stt_uri, {'audio_url': res.data, "speaker_labels": true},
         {headers: {'authorization': ASSEMBLYAI_TOKEN, "content-type": "application/json"}});
       console.log(resp);
       let transcribeID = resp.data.id;
@@ -116,7 +116,7 @@ class Home extends Component {
           guide</a></p>
 
         <button className={"btn btn-primary h4"} onClick={this.call}>Call</button>
-        <p className={"h4"}>{this.state.requestedCall ? (this.state.data == null ? "Loading" : this.state.data): null}</p>
+        <p className={"h4"}>{this.state.requestedCall ? (this.state.data == null ? "Loading" : `Chat Transcript: \n${this.state.data}`): null}</p>
         <button onClick={this.testingLogout} className="button btn btn-danger h3">Logout</button>
       </div>
     )
