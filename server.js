@@ -1,24 +1,62 @@
+/* eslint-disable no-multi-str */
 const express = require('express'); //Line 1
 const cors = require('cors');
 const twilio = require('twilio');
+require('dotenv').config();
 
-const ASSEMBLYAI_TOKEN='eb277c7378e8460dbcdb70e68bb7b989';
-const TWILIO_ACCOUNT_SID='ACaf86dd1358a36f7504a95cf86b1e0c4b';
-const TWILIO_AUTH_TOKEN='94720af290f8797ab69a1e0c6ee1bf8b';
-const PHONE_VER_ACCOUNT_ID='VA85390e62457dca2b0682d525230ad219';
+const VoiceResponse = require('twilio').twiml.VoiceResponse;
+
 
 const app = express(); //Line 2
 app.use(cors());
-const port = process.env.PORT || 5000; //Line 3
+app.use(express.json())
+const port = process.env.PORT; //Line 3
+console.log(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+const client = new twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 // This displays message that the server running and listening to specified port
 app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
 
-// create a GET route
-app.get('/express_backend', (req, res) => { //Line 9
-  res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
-}); //Line 11
-
 app.post('/verify_phone', (req, res) => {
   console.log(req.body);
 });
+
+async function fetchRecording(callSid,req){
+  let res = await client.recordings.list({callSid: callSid, limit: 1});
+  if (res.length <= 0){
+    setTimeout(fetchRecording, 10000);
+  }else{
+    let out = `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Recordings/${res[0].sid}.mp3'`;
+    req.send(out);
+  }
+}
+
+app.post('/make_call', (req, res) => {
+  const phone_call = `<Response>\
+  <Say>Hey ${req.body.name}, how are you feeling today?</Say>\
+  <Pause length='5'/>\
+  <Say>I hear you ${req.body.name}. Could you tell me more?</Say>\
+  <Pause length='10'/>\
+  <Say></Say>\
+  </Response>`
+  // setTimeout(()=>{
+    // fetchRecording('CAb05a7aa53396d996662c078a704f8df1',res)}, 1000);
+
+    client.calls.create({
+        record: true,
+        twiml: phone_call,
+        to: req.body.number,  
+        from: '+13187053381'
+    }).then(call => {
+        setTimeout(()=>{
+          fetchRecording(call.sid,res)}, 60000);
+    })
+    .catch(err => console.log(err));
+})
+// app.listen(process.env.PORT, () => console.log(`Running on Port ${process.env.PORT}`))
+process.on('uncaughtException', err=>{
+  console.log(err)
+})
+process.on('SIGTERM', err=>{
+  console.log(err)
+})
