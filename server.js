@@ -8,6 +8,7 @@ const VoiceResponse = require('twilio').twiml.VoiceResponse;
 
 
 const app = express(); //Line 2
+
 app.use(cors());
 app.use(express.json())
 const port = process.env.PORT; //Line 3
@@ -60,3 +61,39 @@ process.on('uncaughtException', err=>{
 process.on('SIGTERM', err=>{
   console.log(err)
 })
+app.post('/send_code', (req, res) => {
+  const number = req.body.number;
+
+  client.verify.services(process.env.PHONE_VER_ACCOUNT_ID)
+    .verifications
+    .create({to: number, channel: 'sms'})
+    .then((verification) => {
+      res.status(200);
+      res.json({msg: "Verification code sent."});
+    })
+    .catch((e)=>{
+      res.status(400);
+      res.json({error: "Could not send verification code."});
+    });
+});
+
+app.post('/verify_otp', (req, res) => {
+  const {number, code} = req.body;
+  client.verify.services(process.env.PHONE_VER_ACCOUNT_ID)
+    .verificationChecks
+    .create({to: number, code: code})
+    .then(verification_check => {
+      if (verification_check.status === "approved"){
+        res.status(200);
+        res.json({status: "Verification successful."});
+      }
+      res.status(400);
+      res.json({error: "Invalid otp code."});
+    })
+    .catch((e)=>{
+      res.status(400);
+      res.json({error: "Could not verify otp code."});
+    });
+});
+
+
