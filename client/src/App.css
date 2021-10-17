@@ -26,3 +26,10 @@ h1{
   padding: 4px 4px;
   font-size: medium;
 }
+
+.home{
+  background-color: #5688C7;
+  border-radius: 5px;
+  width: 80vw;
+  height: 60vh;
+}
