@@ -1,6 +1,7 @@
-import React from 'react';
+import {React, Component} from 'react';
 import Proptypes from 'prop-types';
 import {UserService} from "../utils/UserService";
+import axios from 'axios';
 
 const ASSEMBLYAI_TOKEN = 'eb277c7378e8460dbcdb70e68bb7b989';
 const SERVER_URL = `http://localhost:4000/`
@@ -51,7 +52,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <div>Welcome, {user.name}</div>
+        <div>Welcome, {this.state.user.name}</div>
         <p className="App-intro">{this.state.data}</p>
         <button onClick={this.call}>Call</button>
         <button onClick={this.testingLogout}>Logout</button>
@@ -63,3 +64,4 @@ class Home extends Component {
 Home.propTypes = {
   setIsAuth: Proptypes.func
 }
+export default Home;

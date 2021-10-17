@@ -6,10 +6,6 @@ import "./Login.css";
 
 
 export class Login extends React.Component{
-  constructor(props) {
-    super(props);
-  }
-
   state = {
     hasSubmitted: false,
     tempNumber: "",
@@ -22,7 +18,7 @@ export class Login extends React.Component{
     axios.post("http://localhost:5000/send_code", {number: this.state.tempNumber})
       .then((resp) => {
         console.log("verification sent.");
-      });
+      }).catch(e => console.log(e));
   };
 
   handleCodeCheck = () => {
