@@ -5,7 +5,7 @@ import {UserService} from "../utils/UserService";
 import "./Login.css";
 
 
-export class Login extends React.Component{
+export class Login extends React.Component {
   state = {
     hasSubmitted: false,
     tempNumber: "",
@@ -14,7 +14,7 @@ export class Login extends React.Component{
   };
 
   handleVerification = () => {
-    this.setState({ hasSubmitted: true });
+    this.setState({hasSubmitted: true});
     axios.post("http://localhost:4000/send_code", {number: this.state.tempNumber})
       .then((resp) => {
         console.log("verification sent.");
@@ -25,16 +25,15 @@ export class Login extends React.Component{
   handleCodeCheck = () => {
     axios.post("http://localhost:4000/verify_otp", {number: this.state.tempNumber, code: this.state.tempCode})
       .then((resp) => {
-        if (resp.data.status){
-          const user = { number: this.state.tempNumber, name: this.state.name };
+        if (resp.data.status) {
+          const user = {number: this.state.tempNumber, name: this.state.name};
           UserService.setUser(user);
           this.props.setAuth(true);
-        }
-        else{
-          this.setState({ hasSubmitted: false });
+        } else {
+          this.setState({hasSubmitted: false});
         }
       })
-      .catch((e)=>{
+      .catch((e) => {
         console.log(e);
       });
   };
@@ -44,22 +43,24 @@ export class Login extends React.Component{
     this.setState({[e.target.name]: e.target.value});
   };
 
-  render(){
-    return(
-      <div >
+  render() {
+    return (
+      <div>
         {this.state.hasSubmitted ?
-          <div className = "login">
-            <label>Please enter the code that was sent your phone</label>
-            <input type={"text"} onChange={this.handleChange} name={"tempCode"} value={this.state.tempCode} className="form"/>
-            <button onClick={this.handleCodeCheck} className="button">Verify Code</button>
+          <div className="login">
+            <label className={""}>Please enter the code that was sent your phone</label>
+            <input type={"text"} onChange={this.handleChange} name={"tempCode"} value={this.state.tempCode}
+                   className="form"/>
+            <button onClick={this.handleCodeCheck} className="btn btn-success font-weight-bold mt-3">Verify Code</button>
           </div>
           :
-          <div className = "login">
-              <label>Please enter your name: </label>
-              <input className="form" type={"text"} onChange={this.handleChange} name={"name"} value={this.state.name}/>
-              <label>Please enter your phone number: </label>
-              <input className="form" type={"text"} onChange={this.handleChange} name={"tempNumber"} value={this.state.tempNumber}/>
-              <button onClick={this.handleVerification} className="button">Verify me</button>
+          <div className="login">
+            <label>Please enter your name: </label>
+            <input className="form" type={"text"} onChange={this.handleChange} name={"name"} value={this.state.name}/>
+            <label>Please enter your phone number: </label>
+            <input className="form" type={"text"} onChange={this.handleChange} name={"tempNumber"}
+                   value={this.state.tempNumber}/>
+            <button onClick={this.handleVerification} className="btn btn-warning font-weight-bold mt-3">Verify me</button>
           </div>
         }
       </div>
